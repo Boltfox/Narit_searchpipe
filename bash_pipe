@@ -1,0 +1,8 @@
+wget http://www.cv.nrao.edu/~sransom/GBT_Lband_PSR.fil #Download the file 
+readfile GBT_Lband_PSR.fil  #Display the header 
+dedisperse_all GBT_Lband_PSR -d 0 70 #Dedisperd from DM=0 to 70 cm^-3
+for timfile in GBT_Lband_PSR.*.tim ; do seek $timfile; done #FFT
+cat GBT_Lband_PSR.*.prd > GBT_Lband_PSR.prd #Grouping 
+best GBT_Lband_PSR.prd GBT_Lband_PSR --maxresults 50 #Display good candidates 
+dspsr -cxxx -Dxx -A -L1 GBT_Lband_PSR.fil #fold at specific period and DM 
+pdmp -mc 16 -ms 16 output 
